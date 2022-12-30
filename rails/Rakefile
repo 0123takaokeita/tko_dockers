@@ -1,0 +1,16 @@
+namespace :rails do
+  desc 'rails bash'
+  task :bash do
+    docker_exe '-it tko_rails bash'
+  end
+end
+
+namespace :compose do
+  task :up do
+    sh 'docker compose -f ./docker/docker-compose.yml up --build -d'
+  end
+end
+
+def docker_exe(args)
+  sh %'docker exec #{args}'
+end
