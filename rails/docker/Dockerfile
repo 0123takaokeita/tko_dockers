@@ -1,4 +1,5 @@
-FROM ruby:3.1
+FROM ruby:3.2
 
-RUN gem install rails
 WORKDIR /root
+
+RUN gem i -v 7.0.4 rails
