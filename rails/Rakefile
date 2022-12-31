@@ -1,7 +1,7 @@
 namespace :rails do
   desc 'rails bash'
   task :bash do
-    docker_exe '-it tko_rails bash'
+    docker_exe '-it -w /root/rails tko_rails bash'
   end
 end
 
