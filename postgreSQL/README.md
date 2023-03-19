@@ -13,16 +13,16 @@ Docker version 20.10.21, build baeda1f
 rakeタスクを実行するようにしています。
 `env_sample.sh`を参考にして設定してください。
 
-`MARIADB_ROOT_PASSWORD` は必須項目なので抜けているとコンテナのビルドで失敗します。
+`POSTGRES_ROOT_PASSWORD` は必須項目なので抜けているとコンテナのビルドで失敗します。
 
 # 使いかた
-mysqlコンテナはRakeタスクで起動できるようにしています。
+postgresコンテナはRakeタスクで起動できるようにしています。
 rake タスクは一覧チェックで確認してください。
 ```
 rake -T
 ```
 
-コンテナが上がってなくても `db:cui` で立ち上げまで実行できます。
+コンテナが上がってなくても `db:cui` で立ち上げloginまで実行できます。
 ```
 rake db:cui
 ```
@@ -35,18 +35,17 @@ output先はbackupに設定しています。
 ```
 rake db:backup[world]
 ```
-
-
 # restore方法
 dbコンテナに入り、sourceにはいってsourceコマンドを叩いてください。
 backupを共有しているのでコンテナの中からでも見えます。
 ```
-mariadb> source file_name.sql
+> \i file_name.sql
 ```
 
 # sample投入
 backupディレクトリの中にサンプルデータのsqlも入れてあります。
-好きなサンプルを選んで投入してください。
+dbコンテナに入って実行してください。
 ```
-mariadb> source /backup/world/world.sql
+> create database dvdrental;
+> \i dvdrental.tar
 ```
