@@ -58,5 +58,16 @@ namespace :db do
   task :restart do
     sh 'docker restart mysql8'
   end
+
+  desc 'DB backup'
+  task :backup, [:dbname] do |t, arg|
+    env_sh %(docker exec $MYSQL_DATABASE mysqldump -u$MYSQL_USER -p$MYSQL_PASSWORD #{arg[:dbname]} > ./sample/#{Time.now.strftime("%Y_%H_%M_%S")}_backup.sql)
+  end
+
+  desc 'DB restore'
+  task :restore, [:dbname] do |t, arg|
+    puts 'todo'
+    # env_sh %(docker exec $MYSQL_DATABASE mysqldump -u$MYSQL_USER -p$MYSQL_PASSWORD #{arg[:dbname]} > ./sample/#{Time.now.strftime("%Y_%H_%M_%S")}_backup.sql)
+  end
 end
 
