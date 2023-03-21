@@ -1,0 +1,65 @@
+############
+##  関数  ##
+############
+def env_sh(cmd)
+  sh "bash -c 'source bin/env.sh && #{cmd}'"
+end
+
+def de(args)
+  sh %(docker exec #{args})
+end
+
+def dc(args)
+  sh %(docker compose #{args})
+end
+
+# コンテナのステータスを確認
+# @param [String | Symbol]
+# @return [String]
+def get_container_status(*container_names)
+  a = container_names.map { |n| `docker inspect --format='{{.State.Status}}' #{n} 2>/dev/null`.chomp }
+  a = a.first if a.length == 1
+  a
+end
+
+############
+##  task  ##
+############
+namespace :cmp do
+  desc 'コンテナ立ち上げ'
+  task :up do
+    dc 'up -d --build'
+  end
+
+  desc 'コンテナを落とす'
+  task :down do
+    dc 'down'
+  end
+end
+
+namespace :redis do
+  desc 'redisコンテナにはいる'
+  task :bash do
+    Rake::Task['cmp:up'].invoke unless get_container_status(:dragonfly) == 'running'
+    puts 'Login dragonfly bash'
+    de '-it dragonfly bash'
+  end
+
+  desc 'redisコンテナに入ってCLIを開く'
+  task :cli do
+    Rake::Task['cmp:up'].invoke unless get_container_status(:dragonfly) == 'running'
+    puts 'Open dragonfly redis-cli'
+    de '-it dragonfly redis-cli'
+  end
+
+  desc 'コンテナを落とす'
+  task :down do
+    sh 'docker stop dragonfly'
+    sh 'docker rm dragonfly'
+  end
+
+  desc 'restert'
+  task :restart do
+    sh 'docker restart dragonfly'
+  end
+end
