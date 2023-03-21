@@ -1,0 +1,22 @@
+version: "3.8"
+
+volumes:
+  data:
+    driver: local
+
+services:
+  db:
+    build: .
+    container_name: mysql8
+    restart: always
+    # ホスト側のPORTと別で使用したいので番号はずらしておく
+    ports:
+      - "13306:3306"
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD:
+
