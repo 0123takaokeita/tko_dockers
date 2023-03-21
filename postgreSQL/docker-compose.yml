@@ -1,0 +1,21 @@
+version: "3.8"
+
+volumes:
+  data:
+    driver: local
+
+services:
+  db:
+    build: .
+    container_name: postgresdb
+    restart: always
+    # ホスト側のPORTと別で使用したいので番号はずらしておく
+    ports:
+      - "15432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./backup:/backup
+    environment:
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD: 12345
