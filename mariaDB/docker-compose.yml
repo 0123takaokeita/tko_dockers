@@ -1,0 +1,23 @@
+version: "3.8"
+
+volumes:
+  data:
+    driver: local
+
+services:
+  db:
+    build: .
+    container_name: mariadb
+    restart: always
+    # ホスト側のPORTと別で使用したいので番号はずらしておく
+    ports:
+      - "13306:3306"
+    volumes:
+      - data:/var/lib/mysql
+      - ./backup:/backup
+    environment:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MARIADB_PASSWORD:
+      MARIADB_ROOT_PASSWORD: $MARIADB_ROOT_PASSWORD
+
