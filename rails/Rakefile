@@ -12,5 +12,5 @@ namespace :compose do
 end
 
 def docker_exe(args)
-  sh %'docker exec #{args}'
+  sh %(docker exec #{args})
 end

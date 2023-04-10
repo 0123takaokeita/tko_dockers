@@ -14,9 +14,10 @@ services:
       - "13306:3306"
     volumes:
       - data:/var/lib/mysql
+      - ./backup:/backup
     environment:
       MYSQL_DATABASE:
       MYSQL_USER:
       MYSQL_PASSWORD:
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: 12345
 
